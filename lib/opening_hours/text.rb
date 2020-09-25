@@ -3,11 +3,8 @@
 module OpeningHours
   class Text
     def initialize(**attributes)
-      @attr = attributes.merge(type: "Text")
+      @text = attributes[:text]
     end
-
-    def text
-      @attr[:text]
-    end
+    attr_reader :text
   end
 end

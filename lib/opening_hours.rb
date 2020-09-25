@@ -2,22 +2,13 @@
 
 require "opening_hours/config"
 require "opening_hours/version"
+require "opening_hours/week_days"
 require "opening_hours/logging"
 require "opening_hours/text"
 require "active_support/core_ext/hash"
 
 module OpeningHours
   class << self
-    WEEK_DAYS = %w[
-      Monday
-      Tuesday
-      Wednesday
-      Thursday
-      Friday
-      Saturday
-      Sunday
-    ].freeze
-
     # 'openingHoursSpecificationSet' => [
     #   {
     #     'name' => 'Whatever'
@@ -63,7 +54,7 @@ module OpeningHours
 
       opening_hours = set["openingHoursSpecification"]
 
-      OpeningHours::Logging.logger.info("Using openingHours: #{opening_hours}")
+      Logging.logger.info("Using openingHours: #{opening_hours}")
 
       if set["validFrom"].blank? || set["validThrough"].blank?
         text = []
