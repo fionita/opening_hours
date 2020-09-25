@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
-require "config"
+require "opening_hours/config"
 require "opening_hours/version"
 require "opening_hours/logging"
 require "opening_hours/text"
 require "active_support/core_ext/hash"
 
 module OpeningHours
-  class Error < StandardError; end
-
   class << self
     WEEK_DAYS = %w[
       Monday
