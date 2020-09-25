@@ -1,0 +1,18 @@
+de:
+  no_opening_hours_set: Das Unternehmen hat aktuell keine Öffnungszeiten angegeben.
+  no_opening_hours: Das Unternehmen ist leider in diesem Zeitraum geschlossen.
+  opening_hours: Öffnungszeiten
+  24_hours_opened: 24 Stunden geöffnet
+  open: Geöffnet
+  closed: Geschlossen
+  valid_from_to: "Gültig von %{start_date} bis %{end_date}"
+
+  # Days of week
+  Monday: Montag
+  Tuesday: Dienstag
+  Wednesday: Mittwoch
+  Thursday: Donnerstag
+  Friday: Freitag
+  Saturday: Samstag
+  Sunday: Sonntag
+  PublicHolidays: Feiertage
