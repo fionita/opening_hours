@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "config"
 require "opening_hours/version"
 require "opening_hours/logging"

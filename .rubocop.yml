@@ -1,0 +1,42 @@
+require:
+  - rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7
+  # Cop names are not d§splayed in offense messages by default. Change behavior
+  # by overriding DisplayCopNames, or by giving the -D/--display-cop-names
+  # option.
+  DisplayCopNames: true
+  # Automatically enable new cops from upgraded versions of rubocop, rubocop-rails etc
+  NewCops: enable
+  # Style guide URLs are not displayed in offense messages by default. Change
+  # behavior by overriding DisplayStyleGuide, or by giving the
+  # -S/--display-style-guide option.
+  DisplayStyleGuide: false
+  Exclude:
+    - 'vendor/**/*'
+    - 'bin/**/*'
+    - 'db/**/*'
+    - 'node_modules/**/*'
+
+Style/Documentation:
+  Description: Document classes and non-namespace modules.
+  Enabled: false
+
+Layout/LineLength:
+  Description: Limit lines to 100 characters.
+  Enabled: true
+  Max: 100
+  AllowURI: true
+  URISchemes:
+  - http
+  - https
+
+Metrics/MethodLength:
+  Description: Limit methods to 15 lines.
+  Enabled: true
+  Max: 15
+
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: double_quotes

@@ -1,6 +1,9 @@
+# frozen_string_literal: true
+
 RSpec.describe OpeningHours do
-  it "has a version number" do
-    expect(OpeningHours::VERSION).not_to be nil
+  after do
+    Timecop.return
+    I18n.locale = I18n.default_locale
   end
 
   before do
@@ -9,12 +12,11 @@ RSpec.describe OpeningHours do
     Timecop.freeze(Time.parse("2019-01-21 18:53:35 +0200")) # a Monday
   end
 
-  after do
-    Timecop.return
-    I18n.locale = I18n.default_locale
+  it "has a version number" do
+    expect(OpeningHours::VERSION).not_to be nil
   end
 
-  describe '#parse' do
+  describe "#parse" do
     context "when opening hours without period (always)" do
       let!(:entity) do
         {
@@ -51,7 +53,7 @@ RSpec.describe OpeningHours do
       end
 
       it "returns correct opening hours without period" do
-        response = OpeningHours.parse(entity)
+        response = described_class.parse(entity)
 
         expect(response.first.text).not_to include("Valid from 01.01.2019 to 01.03.2019")
         expect(response.first.text).to include("Monday: 17:00 - 22:00")
@@ -61,7 +63,7 @@ RSpec.describe OpeningHours do
       end
     end
 
-    context 'when no opening hours but opening hours description' do
+    context "when no opening hours but opening hours description" do
       let!(:entity) do
         {
           "openingHoursSpecificationSet" => [],
@@ -72,8 +74,8 @@ RSpec.describe OpeningHours do
         }
       end
 
-      it 'returns opening hours description' do
-        response = OpeningHours.parse(entity)
+      it "returns opening hours description" do
+        response = described_class.parse(entity)
 
         expect(response.first.text).to include("Winter is coming")
       end
@@ -117,20 +119,20 @@ RSpec.describe OpeningHours do
       end
 
       it "returns an array" do
-        response = OpeningHours.parse(entity)
+        response = described_class.parse(entity)
 
         expect(response).to be_a(Array)
       end
 
       it "returns the opening hours text" do
-        response = OpeningHours.parse(entity)
+        response = described_class.parse(entity)
 
         expect(response.first.text).not_to be_empty
         expect(response.first.text).to be_a(String)
       end
 
       it "returns correct opening hours" do
-        response = OpeningHours.parse(entity)
+        response = described_class.parse(entity)
 
         expect(response.first.text).to include("Valid from 01.01.2019 to 01.03.2019")
         expect(response.first.text).to include("Monday: 17:00 - 22:00")
@@ -179,7 +181,7 @@ RSpec.describe OpeningHours do
       end
 
       it "returns the opening hours text" do
-        response = OpeningHours.parse(entity)
+        response = described_class.parse(entity)
 
         expect(response.first.text).to eq(I18n.t("no_opening_hours_set"))
       end
@@ -222,7 +224,7 @@ RSpec.describe OpeningHours do
       end
 
       it "selects the right opening hours set" do
-        response = OpeningHours.parse(entity)
+        response = described_class.parse(entity)
 
         expect(response.first.text).to include("Valid from 01.01.2019 to 01.03.2019")
       end
