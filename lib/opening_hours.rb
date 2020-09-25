@@ -4,7 +4,6 @@ require "opening_hours/config"
 require "opening_hours/version"
 require "opening_hours/week_days"
 require "opening_hours/logging"
-require "opening_hours/text"
 require "active_support/core_ext/hash"
 
 module OpeningHours
@@ -28,22 +27,18 @@ module OpeningHours
     def parse(entity)
       entity = entity.with_indifferent_access
 
-      answer_from_sets        = from_sets(entity)
-      answer_from_description = from_description(entity)
+      answer_from_sets        = from_sets(entity).presence
+      answer_from_description = from_description(entity).presence
 
       if answer_from_sets.blank? && answer_from_description.blank?
-        return [Text.new(text: I18n.t("no_opening_hours_set"))]
+        return [I18n.t("no_opening_hours_set")]
       end
 
       [answer_from_sets, answer_from_description].compact
     end
 
     def from_description(entity)
-      ohd = entity.dig("opening_hours_description_translations", I18n.locale)
-
-      return if ohd.blank?
-
-      Text.new(text: ohd)
+      entity.dig("opening_hours_description_translations", I18n.locale)
     end
 
     def from_sets(entity)
@@ -53,7 +48,6 @@ module OpeningHours
       return if set.blank?
 
       opening_hours = set["openingHoursSpecification"]
-
       Logging.logger.info("Using openingHours: #{opening_hours}")
 
       if set["validFrom"].blank? || set["validThrough"].blank?
@@ -81,7 +75,7 @@ module OpeningHours
         text << I18n.t("no_opening_hours")
       end
 
-      Text.new(text: text.compact.join("\n"))
+      text.compact.join("\n")
     end
 
     def select_opening_hours_set(opening_hours_sets)

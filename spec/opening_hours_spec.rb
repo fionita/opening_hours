@@ -55,11 +55,11 @@ RSpec.describe OpeningHours do
       it "returns correct opening hours without period" do
         response = described_class.parse(entity)
 
-        expect(response.first.text).not_to include("Valid from 01.01.2019 to 01.03.2019")
-        expect(response.first.text).to include("Monday: 17:00 - 22:00")
-        expect(response.first.text).to include("Tuesday: 24 hours opened")
-        expect(response.first.text).to include("Wednesday: 21:00 - 22:00")
-        expect(response.first.text).to include("Thursday: Closed")
+        expect(response.first).not_to include("Valid from 01.01.2019 to 01.03.2019")
+        expect(response.first).to include("Monday: 17:00 - 22:00")
+        expect(response.first).to include("Tuesday: 24 hours opened")
+        expect(response.first).to include("Wednesday: 21:00 - 22:00")
+        expect(response.first).to include("Thursday: Closed")
       end
     end
 
@@ -77,7 +77,7 @@ RSpec.describe OpeningHours do
       it "returns opening hours description" do
         response = described_class.parse(entity)
 
-        expect(response.first.text).to include("Winter is coming")
+        expect(response.first).to include("Winter is coming")
       end
     end
 
@@ -127,20 +127,20 @@ RSpec.describe OpeningHours do
       it "returns the opening hours text" do
         response = described_class.parse(entity)
 
-        expect(response.first.text).not_to be_empty
-        expect(response.first.text).to be_a(String)
+        expect(response.first).not_to be_empty
+        expect(response.first).to be_a(String)
       end
 
       it "returns correct opening hours" do
         response = described_class.parse(entity)
 
-        expect(response.first.text).to include("Valid from 01.01.2019 to 01.03.2019")
-        expect(response.first.text).to include("Monday: 17:00 - 22:00")
-        expect(response.first.text).to include("Tuesday: 24 hours opened")
-        expect(response.first.text).to include("Wednesday: 21:00 - 22:00")
-        expect(response.first.text).to include("Thursday: Closed")
+        expect(response.first).to include("Valid from 01.01.2019 to 01.03.2019")
+        expect(response.first).to include("Monday: 17:00 - 22:00")
+        expect(response.first).to include("Tuesday: 24 hours opened")
+        expect(response.first).to include("Wednesday: 21:00 - 22:00")
+        expect(response.first).to include("Thursday: Closed")
 
-        expect(response[1].text).to include("Winter is coming")
+        expect(response[1]).to include("Winter is coming")
       end
     end
 
@@ -183,7 +183,7 @@ RSpec.describe OpeningHours do
       it "returns the opening hours text" do
         response = described_class.parse(entity)
 
-        expect(response.first.text).to eq(I18n.t("no_opening_hours_set"))
+        expect(response.first).to eq(I18n.t("no_opening_hours_set"))
       end
     end
 
@@ -226,7 +226,7 @@ RSpec.describe OpeningHours do
       it "selects the right opening hours set" do
         response = described_class.parse(entity)
 
-        expect(response.first.text).to include("Valid from 01.01.2019 to 01.03.2019")
+        expect(response.first).to include("Valid from 01.01.2019 to 01.03.2019")
       end
     end
   end
