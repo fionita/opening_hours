@@ -39,6 +39,6 @@ pipelines:
       - step: *setup-and-test
       - step: *code-quality
   branches:
-    development:
+    master:
       - step: *setup-and-test
       - step: *code-quality
