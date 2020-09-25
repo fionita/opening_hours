@@ -1,0 +1,44 @@
+# This is a sample build configuration for Ruby.
+# Check our guides at https://confluence.atlassian.com/x/8r-5Mw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: ruby:2.7.1
+
+clone:
+  depth: full
+
+definitions:
+  steps:
+    - step: &setup-and-test
+        name: Setup and Test
+        caches:
+          - bundler
+        script: # Modify the commands below to build your repository.
+          - gem install bundler
+          - bundle install
+          - bundle exec rspec --format progress --format RspecJunitFormatter --out ./test-reports/junit.xml
+          - bundle exec rubocop --format json --out rubocop-report.json --fail-level F
+        artifacts:
+          - coverage/*
+          - rubocop-report.json
+    - step: &code-quality
+        name: Code Quality
+        script:
+          - pipe: sonarsource/sonarcloud-scan:1.0.1
+          - pipe: sonarsource/sonarcloud-quality-gate:0.1.3
+  caches:
+    bundler: ./vendor
+  services:
+    docker:
+      memory: 3072
+
+pipelines:
+  pull-requests:
+    '**':
+      - step: *setup-and-test
+      - step: *code-quality
+  branches:
+    development:
+      - step: *setup-and-test
+      - step: *code-quality
