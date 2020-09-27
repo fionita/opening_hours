@@ -1,10 +1,11 @@
 # frozen_string_literal: true
 
-require "opening_hours/config"
 require "opening_hours/version"
 require "opening_hours/week_days"
 require "opening_hours/logging"
 require "active_support/core_ext/hash"
+
+I18n.load_path += Dir.glob("#{File.dirname(__FILE__)}/locales/*.yml")
 
 module OpeningHours
   class << self
